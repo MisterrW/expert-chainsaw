@@ -4,7 +4,13 @@ require_relative('models/calculator')
 require('json')
 
 get '/' do
-  return "Welcome to my world of calculators!"
+  @result = "Welcome to my world of calculators! And cats."
+  erb(:home)
+end
+
+get '/cat' do
+  @cat = "Dibbles the Magnificent"
+  erb(:cat)
 end
 
 get '/add/:num1/:num2' do
@@ -28,14 +34,9 @@ get '/divide/:num1/:num2' do
 end
 
 get '/all/:num1/:num2' do
-  n1 = params[:number1].to_i
-  n2 = params[:number2].to_i
-  results = {
-    add: Calculator.add(n1, n2).to_s,
-    sub: Calculator.subtract(n1, n2).to_s,
-    mult: Calculator.multiply(n1, n2).to_s,
-    div: Calculator.divide(n1, n2).to_s
-  }
-  return json(results)
+  n1 = params[:num1].to_i
+  n2 = params[:num2].to_i
+  @result = Calculator.all(n1, n2)
+  erb(:result)
 end
 
